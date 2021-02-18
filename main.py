@@ -3,6 +3,7 @@ import tweepy
 import database
 import time
 
+
 # Setting Up Few Properties
 CONSUMER_KEY = ""
 CONSUMER_SECRET = ""
@@ -16,6 +17,7 @@ ITEMS = 200
 SLEEP_PER_ITEM = 5
 SLEEP_PER_ROUND = 5 * 60
 DELETE_AFTER_COUNT = 10
+
 
 # Accessing the API
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
@@ -41,11 +43,10 @@ def run_bot():
             api.create_favourite(tweet.id)
             api.retweet(tweet.id)
             if "tweepy.models.Status" in type(tweet):
-                api.update_status(
-                    """
-        Thanks for mentioning me. 
-        Your tweet has been liked and replied. Please folow my creator @AhammadShawki8 💙.        """,
-                    tweet.id)
+                api.update_status("""
+                Thanks for mentioning me. 
+                Your tweet has been liked and replied. Please folow my creator @AhammadShawki8 💙      
+                """, tweet.id)
             database.write_item(tweet.id)
             time.sleep(SLEEP_PER_ITEM)
 
@@ -58,5 +59,5 @@ if __name__ == "__main__":
         time.sleep(SLEEP_PER_ROUND)
         if counter == DELETE_AFTER_COUNT:
             database.clear_info()
+            counter = 0
         counter += 1
-    counter += 1
